@@ -1,0 +1,6 @@
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/logo_splash"
+    android:insetLeft="45dp"
+    android:insetRight="45dp"
+    android:insetTop="92dp"
+    android:insetBottom="92dp"/>

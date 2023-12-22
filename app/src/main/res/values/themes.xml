@@ -6,4 +6,19 @@
     </style>
 
     <style name="Theme.SIPMobile" parent="Base.Theme.SIPMobile" />
+    
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation duration -->
+        <item name="windowSplashScreenBackground">@color/darkBlue</item>
+
+        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated drawable.
+         One of these is required -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_inset</item>
+
+        <!-- Required for animated icons -->
+        <item name="windowSplashScreenAnimationDuration">2500</item>
+
+        <!-- Set the theme of the activity that directly follows your splash screen. This is required -->
+        <item name="postSplashScreenTheme">@style/Base.Theme.SIPMobile</item>
+    </style>
 </resources>

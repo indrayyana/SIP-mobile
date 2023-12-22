@@ -36,4 +36,14 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // untuk menggunakan splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // Volley plugin untuk request dan membaca hasil WebService
+    implementation("com.android.volley:volley:1.2.1")
+
+    // Upload menggunakan retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
