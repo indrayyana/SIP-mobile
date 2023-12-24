@@ -1,8 +1,36 @@
 package com.example.sipmobile;
 
-public class Inventaris {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Inventaris implements Parcelable {
     private String Kode, Nama, Kategori, Tipe, Path;
     private int Jumlah, HargaBeli, TahunBeli;
+
+    protected Inventaris(Parcel in) {
+        Kode = in.readString();
+        Nama = in.readString();
+        Kategori = in.readString();
+        Tipe = in.readString();
+        Path = in.readString();
+        Jumlah = in.readInt();
+        HargaBeli = in.readInt();
+        TahunBeli = in.readInt();
+    }
+
+    public static final Creator<Inventaris> CREATOR = new Creator<Inventaris>() {
+        @Override
+        public Inventaris createFromParcel(Parcel in) {
+            return new Inventaris(in);
+        }
+
+        @Override
+        public Inventaris[] newArray(int size) {
+            return new Inventaris[size];
+        }
+    };
 
     public String getKode() {
         return Kode;
@@ -45,5 +73,22 @@ public class Inventaris {
         Jumlah = jumlah;
         HargaBeli = hargaBeli;
         TahunBeli = tahunBeli;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(Kode);
+        parcel.writeString(Nama);
+        parcel.writeString(Kategori);
+        parcel.writeString(Tipe);
+        parcel.writeString(Path);
+        parcel.writeInt(Jumlah);
+        parcel.writeInt(HargaBeli);
+        parcel.writeInt(TahunBeli);
     }
 }

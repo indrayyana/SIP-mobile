@@ -4,11 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +23,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -45,7 +40,6 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
     FloatingActionButton fabAdd;
     ProgressBar progressBar;
     private ArrayList<Inventaris> arrInventaris = new ArrayList<Inventaris>();
-    int currpos = 0;
     private RequestQueue mRequestQueue;
     private RequestQueue mRequestQueueImage;
 
@@ -62,10 +56,11 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
         lvInventaris.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(ViewAllInventoryActivity.this, arrInventaris.get(i).getKode(),
-                        Toast.LENGTH_SHORT).show();
+                Inventaris dataInventaris = arrInventaris.get(i);
 
                 Intent intent = new Intent(ViewAllInventoryActivity.this, UpdateOrDeleteInventarisActivity.class);
+                // mengirim nilai dataInventaris yg di klik ke UpdateOrDeleteInventarisActivity
+                intent.putExtra("dataInventaris", dataInventaris);
                 startActivity(intent);
             }
         });
@@ -79,17 +74,6 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private boolean isInternetAvailable() {
-        // Dapatkan instance dari ConnectivityManager
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // Dapatkan informasi tentang koneksi aktif
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        // Periksa apakah ada koneksi internet
-        return networkInfo != null && networkInfo.isConnected();
     }
 
     private void insertDataJSONtoList() {
