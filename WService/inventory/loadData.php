@@ -1,15 +1,18 @@
 <?php
 
-if (isTheseParametersAvailable(array('IDInv'))) {
-    $IDInv = $_POST['IDInv'];
+if (isTheseParametersAvailable(array('Nama'))) {
+    $Nama = $_POST['Nama'];
 
-    if (strcmp($IDInv, "Kosong") == 0) {
+    if (strcmp($Nama, "Kosong") == 0) {
         $stmt = $conn->prepare("SELECT Kode, Nama, Jumlah, Kategori, Tipe, HargaBeli, TahunBeli, Foto FROM inventaris");
     } else {
-        $stmt = $conn->prepare("SELECT Kode, Nama, Jumlah, Kategori, Tipe, HargaBeli, TahunBeli, Foto FROM inventaris WHERE Kode=? ");
+        $stmt = $conn->prepare("SELECT Kode, Nama, Jumlah, Kategori, Tipe, HargaBeli, TahunBeli, Foto FROM inventaris WHERE Nama LIKE ? ");
+
+        // untuk mencocokkan urutan karakter apa pun sebelum dan setelah nilai var $Nama; 
+        $wildcard = "%$Nama%";
 
         //mendeklarasikan param di query "?" dengan tipe data string "s" yg nilainya adalah IDInv
-        $stmt->bind_param("s", $IDInv);
+        $stmt->bind_param("s", $wildcard);
     }
 
     $stmt->execute();
@@ -40,10 +43,10 @@ if (isTheseParametersAvailable(array('IDInv'))) {
         $response['data'] = $dataInventaris;
     } else {
         $response['error'] = true;
-        if (strcmp($IDInv, "Kosong") == 0) {
+        if (strcmp($IDNama, "Kosong") == 0) {
             $response['message'] = "Data Tidak Ada";
         } else {
-            $response['message'] = "Data Tidak Ada dengan Kode: " . $IDInv;
+            $response['message'] = "Data Tidak Ditemukan";
         }
     }
 }
