@@ -5,9 +5,11 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -49,7 +51,6 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
 
     ImageView imvUpdateDelete;
     Button btUpdate, btDelete, btPilih;
-    Inventaris inventaris;
     boolean gantiImage;
     String pathImage, ModeMaintain, tempFile, myMessage;
     RequestQueue mRequestQueue, mRequestQueueImage;
@@ -82,7 +83,6 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra("dataInventaris")) {
             Inventaris dataInventaris = (Inventaris) intent.getParcelableExtra("dataInventaris");
 
-            pgs.setVisibility(View.GONE);
             etKode.setEnabled(false);
             etKode.setText(dataInventaris.getKode());
             etNama.setText(dataInventaris.getNama());
@@ -100,6 +100,7 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
                 public void onResponse(Bitmap response) {
                     imvUpdateDelete.setImageBitmap(response);
                     tempFile = dataInventaris.getPath();
+                    pgs.setVisibility(View.GONE);
                 }
             }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.RGB_565,
                     new Response.ErrorListener() {
@@ -142,8 +143,25 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ModeMaintain = "delete";
                 gantiImage = false;
-                pgs.setVisibility(View.VISIBLE);
-                ExeUpdateOrDelete();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateOrDeleteInventarisActivity.this);
+
+                builder.setTitle("Hapus Inventaris")
+                        .setMessage("Anda yakin ingin menghapus data ini ?")
+                        .setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // perintah jika ditekan tombol Ya
+                                pgs.setVisibility(View.VISIBLE);
+                                ExeUpdateOrDelete();
+                            }
+                        }).setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                pgs.setVisibility(View.GONE);
+                            }
+                        });
+                builder.create().show();
             }
         });
     }
@@ -187,6 +205,10 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
 
                             Toast.makeText(UpdateOrDeleteInventarisActivity.this, myMessage + " " +
                                     jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(UpdateOrDeleteInventarisActivity.this, ViewAllInventoryActivity.class);
+                            startActivity(intent);
+                            finish(); // Menutup UpdateOrDeleteInventarisActivity agar tidak kembali lagi saat tombol "Back" ditekan
 
                             clearActivity();
                         } catch (Exception e) {
@@ -250,7 +272,7 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
 
     private void ExeUpdateOrDelete() {
         mRequestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest=createRequestVolley();
+        StringRequest stringRequest = createRequestVolley();
 
         if (gantiImage) {
             File file = new File(pathImage);
@@ -288,60 +310,6 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
             mRequestQueue.add(stringRequest);
         }
     }
-
-    // TODO: Add Fitur Search
-//    private void searchData(String key) {
-//        mRequestQueue = Volley.newRequestQueue(this);
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-//                URLs.URL_LOAD_DATA, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    JSONObject obj = new JSONObject(response);
-//                    if (!obj.getBoolean("error")){
-//                        JSONArray dataInventarisArray = obj.getJSONArray("data");
-//                        for (int i = 0; i < dataInventarisArray.length(); i++){
-//                            JSONObject dtobjInventaris = dataInventarisArray.getJSONObject(i);
-//                            inventaris = new Inventaris(
-//                                    dtobjInventaris.getString("Kode"),
-//                                    dtobjInventaris.getString("Nama"),
-//                                    dtobjInventaris.getString("Kategori"),
-//                                    dtobjInventaris.getString("Tipe"),
-//                                    dtobjInventaris.getString("Foto"),
-//                                    dtobjInventaris.getInt("Jumlah"),
-//                                    dtobjInventaris.getInt("HargaBeli"),
-//                                    dtobjInventaris.getInt("TahunBeli")
-//                            );
-//                        }
-//                        viewData();
-//                    }else{
-//                        // tampilkan data jika terdapat error
-//                        Toast.makeText(UpdateOrDeleteInventarisActivity.this, obj.getString(
-//                                        "message"),
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                }catch (Exception e){
-//                    Toast.makeText(UpdateOrDeleteInventarisActivity.this,
-//                            e.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(UpdateOrDeleteInventarisActivity.this,
-//                        error.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        }){
-//            @Nullable
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("IDInv", key);
-//                return params;
-//            }
-//        };
-//        mRequestQueue.add(stringRequest);
-//    }
 
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;

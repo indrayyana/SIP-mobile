@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-        public void showPermission() {
+    public void showPermission() {
             String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.INTERNET};
 
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            // perintah jika ditekan tombok ok
+                            // perintah jika ditekan tombol ok
                             requestPermission(permission, permissionCode);
                         }
                     });

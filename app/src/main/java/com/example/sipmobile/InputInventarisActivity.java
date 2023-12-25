@@ -181,7 +181,7 @@ public class InputInventarisActivity extends AppCompatActivity {
 
     private void ExeInput() {
         mRequestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest=createRequestVolley();
+        StringRequest stringRequest = createRequestVolley();
 
         // Pemeriksaan field kosong
         if (etKode.getText().toString().isEmpty() ||
@@ -213,14 +213,18 @@ public class InputInventarisActivity extends AppCompatActivity {
                     Toast.makeText(InputInventarisActivity.this, "Masuk",
                             Toast.LENGTH_LONG).show();
 
-                    if (serverResponse != null){
-                        if(serverResponse.getSuccess()){
+                    if (serverResponse != null) {
+                        if (serverResponse.getSuccess()) {
                             mRequestQueue.add(stringRequest);
-                        }else{
+
+                            Intent intent = new Intent(InputInventarisActivity.this, ViewAllInventoryActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
                             Toast.makeText(InputInventarisActivity.this, serverResponse.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
-                    }else{
+                    } else {
                         Log.e("Response : ", serverResponse.toString());
                     }
 
