@@ -18,29 +18,34 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".InputStaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateOrDeleteStaffActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdateOrDeleteInventarisActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InputInventarisActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewAllStaffActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            />
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ViewAllMaintenanceActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            />
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ViewAllInventoryActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

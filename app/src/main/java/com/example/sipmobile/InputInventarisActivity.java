@@ -32,7 +32,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,7 +116,7 @@ public class InputInventarisActivity extends AppCompatActivity {
 
     private StringRequest createRequestVolley() {
         myMessage = "Insert Data";
-        String myURL = URLs.URL_INSERT_DATA;
+        String myURL = URLs.URL_INSERT_DATA_INVENTARIS;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, myURL,
                 new com.android.volley.Response.Listener<String>() {
@@ -127,8 +126,8 @@ public class InputInventarisActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
 
-                            Toast.makeText(InputInventarisActivity.this, myMessage + " " +
-                                    jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(InputInventarisActivity.this, myMessage + ": " +
+                                    jsonObject.getString("message"), Toast.LENGTH_LONG).show();
 
                             clearActivity();
                         } catch (Exception e) {
@@ -210,8 +209,6 @@ public class InputInventarisActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
                     ServerResponse serverResponse = response.body();
-                    Toast.makeText(InputInventarisActivity.this, "Masuk",
-                            Toast.LENGTH_LONG).show();
 
                     if (serverResponse != null) {
                         if (serverResponse.getSuccess()) {

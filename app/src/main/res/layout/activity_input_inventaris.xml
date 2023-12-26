@@ -121,7 +121,7 @@
                         android:inputType="text"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                     <EditText
@@ -136,7 +136,7 @@
                         android:inputType="text"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                     <EditText
@@ -151,7 +151,7 @@
                         android:inputType="number"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                     <EditText
@@ -166,7 +166,7 @@
                         android:inputType="text"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                     <EditText
@@ -181,7 +181,7 @@
                         android:inputType="text"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                     <EditText
@@ -196,7 +196,7 @@
                         android:inputType="number"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                     <EditText
@@ -208,11 +208,12 @@
                         android:layout_marginBottom="40dp"
                         android:background="@drawable/rounded_edittext_background"
                         android:ems="10"
+                        android:maxLength="4"
                         android:hint="Tahun Beli"
                         android:inputType="number"
                         android:padding="10dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
+                        android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
                 </LinearLayout>

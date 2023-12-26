@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -60,6 +60,8 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         lvInventaris = (ListView) findViewById(R.id.ListViewInventaris);
 
+        insertDataJSONtoList();
+
         etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -82,8 +84,6 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
             }
         });
 
-        insertDataJSONtoList();
-
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +100,7 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
         mRequestQueueImage = Volley.newRequestQueue(this);
 
         // Buat paket perintah untuk mendapatkan data dengan metode POST pada alamat URL Load Data
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_LOAD_DATA,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.URL_LOAD_DATA_INVENTARIS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -146,8 +146,10 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+
                 // tampilkan error saat terjadi kesalahan pada saat melakukan proses response
-                Toast.makeText(ViewAllInventoryActivity.this, error.getMessage(),
+                Toast.makeText(ViewAllInventoryActivity.this, "Tidak dapat memuat ulang data Inventaris",
                         Toast.LENGTH_SHORT).show();
             }
         }){
@@ -169,7 +171,7 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
     private void searchData(String key) {
         mRequestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                URLs.URL_LOAD_DATA, new Response.Listener<String>() {
+                URLs.URL_LOAD_DATA_INVENTARIS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -208,8 +210,9 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ViewAllInventoryActivity.this,
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                // tampilkan error saat terjadi kesalahan pada saat melakukan proses response
+                Toast.makeText(ViewAllInventoryActivity.this, "Tidak dapat memuat ulang data Inventaris",
+                        Toast.LENGTH_SHORT).show();
             }
         }){
             @Nullable
@@ -230,7 +233,7 @@ public class ViewAllInventoryActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    private class MyListAdapter extends ArrayAdapter<Inventaris>{
+    private class MyListAdapter extends ArrayAdapter<Inventaris> {
         private List<Inventaris> itemList;
 
         public MyListAdapter(List<Inventaris> itemList) {

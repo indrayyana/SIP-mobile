@@ -34,7 +34,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -188,11 +187,11 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         switch (ModeMaintain) {
             case "update" :
                 myMessage = "Update Data";
-                myURLs = URLs.URL_UPDATE_DATA;
+                myURLs = URLs.URL_UPDATE_DATA_INVENTARIS;
                 break;
             case "delete" :
                 myMessage = "Delete Data";
-                myURLs = URLs.URL_DELETE_DATA;
+                myURLs = URLs.URL_DELETE_DATA_INVENTARIS;
                 break;
         }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, myURLs,
