@@ -17,6 +17,13 @@ public class URLs {
     public static final String URL_UPDATE_DATA_STAFF = ROOT_URL + "updateDataStaff";
     public static final String URL_DELETE_DATA_STAFF = ROOT_URL + "deleteDataStaff";
 
+    // untuk memanggil web service Maintenance
+    public static final String URL_INSERT_DATA_MAINTENANCE = ROOT_URL + "insertDataMaintenance";
+    public static final String URL_LOAD_DATA_MAINTENANCE = ROOT_URL + "loadDataMaintenance";
+    public static final String URL_UPDATE_DATA_MAINTENANCE = ROOT_URL + "updateDataMaintenance";
+
+
+    // untuk load dan upload image
     public static final String URL_LOADIMAGE = SERVER_IP + "/WService/Foto/";
     public static final String URL_UPLOADIMAGE = "WService/upload_image.php";
 }

@@ -131,7 +131,7 @@
             android:ems="10"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:hint="Search"
+            android:hint="Search..."
             android:inputType="text"
             android:padding="10dp" />
     </LinearLayout>

@@ -46,7 +46,6 @@ public class InputInventarisActivity extends AppCompatActivity {
 
     ImageView imvInput;
     Button btSave, btPilih;
-    Inventaris inventaris;
     boolean gantiImage;
     String pathImage, myMessage;
     RequestQueue mRequestQueue;
@@ -139,7 +138,7 @@ public class InputInventarisActivity extends AppCompatActivity {
         new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(InputInventarisActivity.this,error.getMessage(),
+                Toast.makeText(InputInventarisActivity.this, error.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }
         }){
