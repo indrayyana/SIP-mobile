@@ -58,7 +58,7 @@ if (isTheseParametersAvailable(array('Nama'))) {
         if (strcmp($Nama, "Kosong") == 0) {
             $response['message'] = "Data Tidak Ada";
         } else {
-            $response['message'] = "Data Tidak Ada dengan Kode: " . $IDMt;
+            $response['message'] = "Data Tidak Ada dengan Nama: " . $Nama;
         }
     }
 }
