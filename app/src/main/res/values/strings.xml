@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SIP mobile</string>
+    <string-array name="inventaris">
+        <item>Baru</item>
+        <item>Bekas</item>
+    </string-array>
 </resources>

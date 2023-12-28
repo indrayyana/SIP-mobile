@@ -16,10 +16,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,6 +34,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +54,8 @@ public class InputInventarisActivity extends AppCompatActivity {
     String pathImage, myMessage;
     RequestQueue mRequestQueue;
     ProgressBar pgs;
-    EditText etKode, etNama, etJumlah, etKategori, etTipe, etHarga, etTahun;
+    Spinner spTipe;
+    EditText etKode, etNama, etJumlah, etKategori, etHarga, etTahun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class InputInventarisActivity extends AppCompatActivity {
         etNama = (EditText) findViewById(R.id.editTextNamaInput);
         etJumlah = (EditText) findViewById(R.id.editTextJumlahInput);
         etKategori = (EditText) findViewById(R.id.editTextKategoriInput);
-        etTipe = (EditText) findViewById(R.id.editTextTipeInput);
+        spTipe = (Spinner) findViewById(R.id.spinnerTipeInput);
         etHarga = (EditText) findViewById(R.id.editTextHargaInput);
         etTahun = (EditText) findViewById(R.id.editTextTahunInput);
         pgs = (ProgressBar) findViewById(R.id.progressBarInput);
@@ -72,6 +77,12 @@ public class InputInventarisActivity extends AppCompatActivity {
         pgs.setVisibility(View.GONE);
         imvInput.setImageResource(R.drawable.ic_launcher_background);
         gantiImage = false;
+
+        // Custom warna text item spinner
+        String[] value = getResources().getStringArray(R.array.inventaris);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(value));
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.style_text_spinner, arrayList);
+        spTipe.setAdapter(arrayAdapter);
 
         btPilih.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +161,7 @@ public class InputInventarisActivity extends AppCompatActivity {
                 params.put("Nama", etNama.getText().toString());
                 params.put("Jumlah", etJumlah.getText().toString());
                 params.put("Kategori", etKategori.getText().toString());
-                params.put("Tipe", etTipe.getText().toString());
+                params.put("Tipe", spTipe.getSelectedItem().toString());
                 params.put("HargaBeli", etHarga.getText().toString());
                 params.put("TahunBeli", etTahun.getText().toString());
 
@@ -170,7 +181,6 @@ public class InputInventarisActivity extends AppCompatActivity {
         etNama.setText("");
         etJumlah.setText("");
         etKategori.setText("");
-        etTipe.setText("");
         etHarga.setText("");
         etTahun.setText("");
         imvInput.setImageResource(R.drawable.ic_launcher_background);
@@ -186,7 +196,6 @@ public class InputInventarisActivity extends AppCompatActivity {
                 etNama.getText().toString().isEmpty() ||
                 etJumlah.getText().toString().isEmpty() ||
                 etKategori.getText().toString().isEmpty() ||
-                etTipe.getText().toString().isEmpty() ||
                 etHarga.getText().toString().isEmpty() ||
                 etTahun.getText().toString().isEmpty() ||
                 pathImage == null || pathImage.isEmpty()) {

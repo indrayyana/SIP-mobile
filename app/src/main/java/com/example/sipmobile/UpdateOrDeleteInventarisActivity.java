@@ -19,10 +19,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,6 +39,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +58,8 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
     String pathImage, ModeMaintain, tempFile, myMessage;
     RequestQueue mRequestQueue, mRequestQueueImage;
     ProgressBar pgs;
-    EditText etKode, etNama, etJumlah, etKategori, etTipe, etHarga, etTahun;
+    Spinner spTipe;
+    EditText etKode, etNama, etJumlah, etKategori, etHarga, etTahun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         etNama = (EditText) findViewById(R.id.editTextNamaUpdateDelete);
         etJumlah = (EditText) findViewById(R.id.editTextJumlahUpdateDelete);
         etKategori = (EditText) findViewById(R.id.editTextKategoriUpdateDelete);
-        etTipe = (EditText) findViewById(R.id.editTextTipeUpdateDelete);
+        spTipe = (Spinner) findViewById(R.id.spinnerTipeUpdateDelete);
         etHarga = (EditText) findViewById(R.id.editTextHargaUpdateDelete);
         etTahun = (EditText) findViewById(R.id.editTextTahunUpdateDelete);
         pgs = (ProgressBar) findViewById(R.id.progressBarUpdateDelete);
@@ -78,6 +83,12 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         imvUpdateDelete.setImageResource(R.drawable.ic_launcher_background);
         gantiImage = false;
 
+        // Custom warna text item spinner
+        String[] value = getResources().getStringArray(R.array.inventaris);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(value));
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.style_text_spinner, arrayList);
+        spTipe.setAdapter(arrayAdapter);
+
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("dataInventaris")) {
             Inventaris dataInventaris = (Inventaris) intent.getParcelableExtra("dataInventaris");
@@ -87,7 +98,7 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
             etNama.setText(dataInventaris.getNama());
             etJumlah.setText(String.valueOf(dataInventaris.getJumlah()));
             etKategori.setText(dataInventaris.getKategori());
-            etTipe.setText(dataInventaris.getTipe());
+            spTipe.setSelection(getPositionByValue(dataInventaris.getTipe()));
             etHarga.setText(String.valueOf(dataInventaris.getHargaBeli()));
             etTahun.setText(String.valueOf(dataInventaris.getTahunBeli()));
 
@@ -165,6 +176,21 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         });
     }
 
+    // Untuk mendapatkan indeks item yg sesuai dgn params
+    private int getPositionByValue(String value) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spTipe.getAdapter();
+
+        if (adapter != null) {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (adapter.getItem(i).equals(value)) {
+                    return i;
+                }
+            }
+        }
+
+        return 0; // Default: Pilih item pertama jika tidak ditemukan
+    }
+
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -230,7 +256,7 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
                 params.put("Nama", etNama.getText().toString());
                 params.put("Jumlah", etJumlah.getText().toString());
                 params.put("Kategori", etKategori.getText().toString());
-                params.put("Tipe", etTipe.getText().toString());
+                params.put("Tipe", spTipe.getSelectedItem().toString());
                 params.put("HargaBeli", etHarga.getText().toString());
                 params.put("TahunBeli", etTahun.getText().toString());
 
@@ -262,7 +288,6 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         etNama.setText("");
         etJumlah.setText("");
         etKategori.setText("");
-        etTipe.setText("");
         etHarga.setText("");
         etTahun.setText("");
         imvUpdateDelete.setImageResource(R.drawable.ic_launcher_background);

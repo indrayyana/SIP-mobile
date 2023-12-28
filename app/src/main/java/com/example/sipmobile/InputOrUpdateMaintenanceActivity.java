@@ -72,12 +72,15 @@ public class InputOrUpdateMaintenanceActivity extends AppCompatActivity {
 
                 btSave.setEnabled(false);
                 btSave.setBackgroundColor(getResources().getColor(R.color.grey));
-                btSave.setTextColor(getResources().getColor(android.R.color.white));
+                btSave.setTextColor(getResources().getColor(android.R.color.darker_gray));
             } else {
                 etTanggal.setText("");
+                etVendor.setText("");
+                etStaffPIC.setText("");
+
                 btUpdate.setEnabled(false);
                 btUpdate.setBackgroundColor(getResources().getColor(R.color.grey));
-                btUpdate.setTextColor(getResources().getColor(android.R.color.white));
+                btUpdate.setTextColor(getResources().getColor(android.R.color.darker_gray));
             }
 
             mRequestQueueImage = Volley.newRequestQueue(InputOrUpdateMaintenanceActivity.this);

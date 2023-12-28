@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -145,7 +146,7 @@ public class ViewAllMaintenanceActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
                 // input parameter ke api dengan nama 'Nama' dengan nilai "Kosong"
-                params.put("IDMt", "Kosong");
+                params.put("Nama", "Kosong");
                 return params;
             }
         };
@@ -202,7 +203,7 @@ public class ViewAllMaintenanceActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("IDMt", key);
+                params.put("Nama", key);
                 return params;
             }
         };
@@ -242,12 +243,13 @@ public class ViewAllMaintenanceActivity extends AppCompatActivity {
 
                 ImageRequest requestImage = new ImageRequest(URLs.URL_LOADIMAGE + maintenance.getFotoInventaris(),
                         new Response.Listener<Bitmap>() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void onResponse(Bitmap response) {
                                 imvMaintenance.setImageBitmap(response);
                                 tvNamaMaintenance.setText(maintenance.getNamaInventaris());
                                 tvKodeMaintenance.setText("Kode : " + maintenance.getKode());
-                                if (maintenance.getTanggalMaintenance() != "null") {
+                                if (!"null".equals(maintenance.getTanggalMaintenance())) {
                                     tvTanggalMaintenance.setText(maintenance.getTanggalMaintenance());
                                 } else {
                                     tvTanggalMaintenance.setText("-");

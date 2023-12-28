@@ -169,20 +169,14 @@
                         android:textColorHint="@color/grey"
                         android:textSize="18dp" />
 
-                    <EditText
-                        android:id="@+id/editTextTipeInput"
+                    <Spinner
+                        android:id="@+id/spinnerTipeInput"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/rounded_edittext_background"
-                        android:ems="10"
-                        android:hint="Tipe"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/grey"
-                        android:textSize="18dp" />
+                        android:background="@drawable/spinner"
+                        android:popupBackground="@drawable/rounded_spinner_background" />
 
                     <EditText
                         android:id="@+id/editTextHargaInput"
