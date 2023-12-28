@@ -8,9 +8,7 @@ if (isTheseParametersAvailable(array('Nama'))) {
     } else {
         $stmt = $conn->prepare("SELECT Kode, Nama, Jumlah, Kategori, Tipe, HargaBeli, TahunBeli, Foto FROM inventaris WHERE Nama LIKE ? ");
 
-        // untuk mencocokkan urutan karakter apa pun sebelum dan setelah nilai var $Nama; 
         $wildcard = "%$Nama%";
-
         //mendeklarasikan param di query "?" dengan tipe data string "s" yg nilainya adalah IDInv
         $stmt->bind_param("s", $wildcard);
     }
@@ -43,10 +41,10 @@ if (isTheseParametersAvailable(array('Nama'))) {
         $response['data'] = $dataInventaris;
     } else {
         $response['error'] = true;
-        if (strcmp($IDNama, "Kosong") == 0) {
+        if (strcmp($Nama, "Kosong") == 0) {
             $response['message'] = "Data Tidak Ada";
         } else {
-            $response['message'] = "Data Tidak Ditemukan";
+            $response['message'] = "Data Tidak Ada dengan Nama: " . $Nama;
         }
     }
 }

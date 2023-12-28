@@ -1,5 +1,4 @@
 <?php
-// cek parameter jika ada dengan parameter "IDMhs";
 if (isTheseParametersAvailable(array('IDInv', 'Nama', 'Jumlah', 'Kategori', 'Tipe', 'HargaBeli', 'TahunBeli', 'Foto1', 'Foto2'))) {
     $IDInv = $_POST['IDInv'];
     $Nama = $_POST['Nama'];

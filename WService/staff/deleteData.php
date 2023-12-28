@@ -1,5 +1,4 @@
 <?php
-// cek parameter jika ada dengan parameter "IDMhs";
 if (isTheseParametersAvailable(array('IDStaff', 'Nama', 'Jabatan', 'Tipe', 'Gaji', 'TahunBergabung'))) {
     $IDStaff = $_POST['IDStaff'];
     $Nama = $_POST['Nama'];

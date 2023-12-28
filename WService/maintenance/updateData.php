@@ -1,5 +1,4 @@
 <?php
-// cek parameter jika ada parameter "IDInv"
 if (isTheseParametersAvailable(array('IDMt', 'TanggalMaintenance', 'VendorMaintenance', 'StaffPIC'))) {
     // mendapatkan nilai dari params 
     $IDMt = $_POST['IDMt'];

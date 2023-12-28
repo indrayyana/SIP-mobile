@@ -1,12 +1,13 @@
 <?php
 
-if (isTheseParametersAvailable(array('IDMt'))) {
-    $IDMt = $_POST['IDMt'];
+if (isTheseParametersAvailable(array('Nama'))) {
+    $Nama = $_POST['Nama'];
 
-    if (strcmp($IDMt, "Kosong") == 0) {
+    if (strcmp($Nama, "Kosong") == 0) {
         $stmt = $conn->prepare("SELECT 
                                 A.Kode, 
                                 A.Nama, 
+                                A.Foto,
                                 B.TanggalMaintenance, 
                                 B.VendorMaintenance, 
                                 B.StaffPIC 
@@ -17,21 +18,23 @@ if (isTheseParametersAvailable(array('IDMt'))) {
         $stmt = $conn->prepare("SELECT 
                                 A.Kode,
                                 A.Nama, 
+                                A.Foto,
                                 B.TanggalMaintenance, 
                                 B.VendorMaintenance, 
                                 B.StaffPIC 
                             FROM inventaris AS A
                             LEFT JOIN maintenance AS B 
                             ON A.Kode = B.Kode
-                            WHERE A.Kode=? ");
-        $stmt->bind_param("s", $IDMt);
+                            WHERE A.Nama LIKE ? ");
+        $wildcard = "%$Nama%";
+        $stmt->bind_param("s", $wildcard);
     }
 
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($Kode, $Nama, $TanggalMaintenance, $VendorMaintenance, $StaffPIC);
+        $stmt->bind_result($Kode, $Nama, $Foto, $TanggalMaintenance, $VendorMaintenance, $StaffPIC);
         $dataMaintenance = array();
 
         while ($stmt->fetch()) {
@@ -39,6 +42,7 @@ if (isTheseParametersAvailable(array('IDMt'))) {
 
             $tempData['Kode'] = $Kode;
             $tempData['Nama'] = $Nama;
+            $tempData['Foto'] = $Foto;
             $tempData['TanggalMaintenance'] = $TanggalMaintenance;
             $tempData['VendorMaintenance'] = $VendorMaintenance;
             $tempData['StaffPIC'] = $StaffPIC;
@@ -51,7 +55,7 @@ if (isTheseParametersAvailable(array('IDMt'))) {
         $response['data'] = $dataMaintenance;
     } else {
         $response['error'] = true;
-        if (strcmp($IDMt, "Kosong") == 0) {
+        if (strcmp($Nama, "Kosong") == 0) {
             $response['message'] = "Data Tidak Ada";
         } else {
             $response['message'] = "Data Tidak Ada dengan Kode: " . $IDMt;

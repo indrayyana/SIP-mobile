@@ -1,13 +1,14 @@
 <?php
 
-if (isTheseParametersAvailable(array('IDStaff'))) {
-    $IDStaff = $_POST['IDStaff'];
+if (isTheseParametersAvailable(array('Nama'))) {
+    $Nama = $_POST['Nama'];
 
-    if (strcmp($IDStaff, "Kosong") == 0) {
+    if (strcmp($Nama, "Kosong") == 0) {
         $stmt = $conn->prepare("SELECT Id, Nama, Jabatan, Tipe, Gaji, TahunBergabung FROM staff");
     } else {
-        $stmt = $conn->prepare("SELECT Id, Nama, Jabatan, Tipe, Gaji, TahunBergabung FROM staff WHERE Kode=? ");
-        $stmt->bind_param("s", $IDStaff);
+        $stmt = $conn->prepare("SELECT Id, Nama, Jabatan, Tipe, Gaji, TahunBergabung FROM staff WHERE Nama LIKE ? ");
+        $wildcard = "%$Nama%";
+        $stmt->bind_param("s", $wildcard);
     }
 
     $stmt->execute();
@@ -35,10 +36,10 @@ if (isTheseParametersAvailable(array('IDStaff'))) {
         $response['data'] = $dataStaff;
     } else {
         $response['error'] = true;
-        if (strcmp($IDStaff, "Kosong") == 0) {
+        if (strcmp($Nama, "Kosong") == 0) {
             $response['message'] = "Data Tidak Ada";
         } else {
-            $response['message'] = "Data Tidak Ada dengan ID: " . $IDStaff;
+            $response['message'] = "Data Tidak Ada dengan Nama: " . $Nama;
         }
     }
 }
