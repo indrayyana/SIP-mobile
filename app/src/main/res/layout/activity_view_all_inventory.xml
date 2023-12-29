@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewAllInventoryActivity"
+    tools:context=".inventaris.ViewAllInventoryActivity"
     android:background="@color/blue">
 
     <ImageView
@@ -66,6 +66,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ListViewInventaris"
         app:layout_constraintVertical_bias="0.0"
+        app:tint="@color/white"
+        android:backgroundTint="@color/purple"
         app:maxImageSize="50dp" />
 
     <ProgressBar

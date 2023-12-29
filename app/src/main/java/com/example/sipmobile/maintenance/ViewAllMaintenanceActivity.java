@@ -1,4 +1,4 @@
-package com.example.sipmobile;
+package com.example.sipmobile.maintenance;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.sipmobile.R;
+import com.example.sipmobile.URLs;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

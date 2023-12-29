@@ -1,4 +1,4 @@
-package com.example.sipmobile;
+package com.example.sipmobile.maintenance;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sipmobile.R;
+import com.example.sipmobile.URLs;
 
 import org.json.JSONObject;
 
@@ -184,7 +186,7 @@ public class InputOrUpdateMaintenanceActivity extends AppCompatActivity {
         etTanggal.setText("");
         etVendor.setText("");
         etStaffPIC.setText("");
-        imvMaintenance.setImageResource(R.drawable.ic_launcher_background);
+        imvMaintenance.setImageResource(android.R.drawable.ic_menu_gallery);
     }
 
     private void ExeInputOrUpdate() {
@@ -196,7 +198,7 @@ public class InputOrUpdateMaintenanceActivity extends AppCompatActivity {
                 etVendor.getText().toString().isEmpty() ||
                 etStaffPIC.getText().toString().isEmpty()) {
 
-            Toast.makeText(this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Semua input harus diisi", Toast.LENGTH_SHORT).show();
             pgs.setVisibility(View.GONE);
             return;  // Berhenti eksekusi jika ada field yang kosong
         }

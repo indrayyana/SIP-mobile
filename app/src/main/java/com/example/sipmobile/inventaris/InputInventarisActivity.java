@@ -1,4 +1,4 @@
-package com.example.sipmobile;
+package com.example.sipmobile.inventaris;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -30,6 +30,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sipmobile.ApiConfig;
+import com.example.sipmobile.AppConfig;
+import com.example.sipmobile.R;
+import com.example.sipmobile.ServerResponse;
+import com.example.sipmobile.URLs;
 
 import org.json.JSONObject;
 
@@ -75,12 +80,12 @@ public class InputInventarisActivity extends AppCompatActivity {
         btSave = (Button) findViewById(R.id.buttonSaveInput);
 
         pgs.setVisibility(View.GONE);
-        imvInput.setImageResource(R.drawable.ic_launcher_background);
+        imvInput.setImageResource(android.R.drawable.ic_menu_gallery);
         gantiImage = false;
 
         // Custom warna text item spinner
-        String[] value = getResources().getStringArray(R.array.inventaris);
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(value));
+        String[] itemTipeInventaris = getResources().getStringArray(R.array.inventaris);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(itemTipeInventaris));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.style_text_spinner, arrayList);
         spTipe.setAdapter(arrayAdapter);
 
@@ -183,7 +188,7 @@ public class InputInventarisActivity extends AppCompatActivity {
         etKategori.setText("");
         etHarga.setText("");
         etTahun.setText("");
-        imvInput.setImageResource(R.drawable.ic_launcher_background);
+        imvInput.setImageResource(android.R.drawable.ic_menu_gallery);
         gantiImage = false;
     }
 

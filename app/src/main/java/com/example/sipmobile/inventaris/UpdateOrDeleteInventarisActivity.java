@@ -1,4 +1,4 @@
-package com.example.sipmobile;
+package com.example.sipmobile.inventaris;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -35,6 +35,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sipmobile.ApiConfig;
+import com.example.sipmobile.AppConfig;
+import com.example.sipmobile.R;
+import com.example.sipmobile.ServerResponse;
+import com.example.sipmobile.URLs;
 
 import org.json.JSONObject;
 
@@ -80,12 +85,12 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         btDelete = (Button) findViewById(R.id.buttonDelete);
 
         pgs.setVisibility(View.VISIBLE);
-        imvUpdateDelete.setImageResource(R.drawable.ic_launcher_background);
+        imvUpdateDelete.setImageResource(android.R.drawable.ic_menu_gallery);
         gantiImage = false;
 
         // Custom warna text item spinner
-        String[] value = getResources().getStringArray(R.array.inventaris);
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(value));
+        String[] itemTipeInventaris = getResources().getStringArray(R.array.inventaris);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(itemTipeInventaris));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.style_text_spinner, arrayList);
         spTipe.setAdapter(arrayAdapter);
 
@@ -144,6 +149,20 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ModeMaintain = "update";
                 pgs.setVisibility(View.VISIBLE);
+
+                // Pemeriksaan field kosong saat update
+                if (etNama.getText().toString().isEmpty() ||
+                        etJumlah.getText().toString().isEmpty() ||
+                        etKategori.getText().toString().isEmpty() ||
+                        etHarga.getText().toString().isEmpty() ||
+                        etTahun.getText().toString().isEmpty()) {
+
+                    Toast.makeText(UpdateOrDeleteInventarisActivity.this, "Semua input harus diisi",
+                            Toast.LENGTH_SHORT).show();
+                    pgs.setVisibility(View.GONE);
+                    return;  // Berhenti eksekusi jika ada field yang kosong
+                }
+
                 ExeUpdateOrDelete();
             }
         });
@@ -177,12 +196,12 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
     }
 
     // Untuk mendapatkan indeks item yg sesuai dgn params
-    private int getPositionByValue(String value) {
+    private int getPositionByValue(String item) {
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spTipe.getAdapter();
 
         if (adapter != null) {
             for (int i = 0; i < adapter.getCount(); i++) {
-                if (adapter.getItem(i).equals(value)) {
+                if (adapter.getItem(i).equals(item)) {
                     return i;
                 }
             }
@@ -290,7 +309,7 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
         etKategori.setText("");
         etHarga.setText("");
         etTahun.setText("");
-        imvUpdateDelete.setImageResource(R.drawable.ic_launcher_background);
+        imvUpdateDelete.setImageResource(android.R.drawable.ic_menu_gallery);
         gantiImage = false;
     }
 
@@ -309,8 +328,6 @@ public class UpdateOrDeleteInventarisActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
                     ServerResponse serverResponse = response.body();
-                    Toast.makeText(UpdateOrDeleteInventarisActivity.this, "Masuk",
-                            Toast.LENGTH_LONG).show();
 
                     if (serverResponse != null) {
                         if (serverResponse.getSuccess()) {

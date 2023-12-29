@@ -1,4 +1,4 @@
-package com.example.sipmobile;
+package com.example.sipmobile.inventaris;
 
 import android.os.Parcel;
 import android.os.Parcelable;

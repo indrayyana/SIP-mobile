@@ -9,11 +9,11 @@ public class ServerResponse {
     @SerializedName("message")
     String message;
 
-    String getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    boolean getSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 }

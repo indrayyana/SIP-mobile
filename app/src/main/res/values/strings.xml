@@ -4,4 +4,8 @@
         <item>Baru</item>
         <item>Bekas</item>
     </string-array>
+    <string-array name="staff">
+        <item>Pegawai Baru</item>
+        <item>Pegawai Tetap</item>
+    </string-array>
 </resources>

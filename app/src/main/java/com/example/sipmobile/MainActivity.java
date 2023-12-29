@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,11 +14,15 @@ import android.view.View;
 import android.Manifest;
 import android.widget.Button;
 
+import com.example.sipmobile.inventaris.ViewAllInventoryActivity;
+import com.example.sipmobile.maintenance.ViewAllMaintenanceActivity;
+import com.example.sipmobile.staff.ViewAllStaffActivity;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SplashScreen splashScreen;
+    SplashScreen splashScreen;
     Button btInv, btMt, btStaff;
 
     @Override

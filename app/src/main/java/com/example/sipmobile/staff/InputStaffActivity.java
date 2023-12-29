@@ -1,19 +1,16 @@
-package com.example.sipmobile;
+package com.example.sipmobile.staff;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,18 +19,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sipmobile.R;
+import com.example.sipmobile.URLs;
 
 import org.json.JSONObject;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class InputStaffActivity extends AppCompatActivity {
 
@@ -41,7 +35,8 @@ public class InputStaffActivity extends AppCompatActivity {
     String myMessage;
     RequestQueue mRequestQueue;
     ProgressBar pgs;
-    EditText etNama, etJabatan, etTipe, etGaji, etTahunBergabung;
+    Spinner spTipe;
+    EditText etNama, etJabatan, etGaji, etTahunBergabung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +45,19 @@ public class InputStaffActivity extends AppCompatActivity {
 
         etNama = (EditText) findViewById(R.id.editTextNamaStaffInput);
         etJabatan = (EditText) findViewById(R.id.editTextJabatanStaffInput);
-        etTipe = (EditText) findViewById(R.id.editTextTipeStaffInput);
+        spTipe = (Spinner) findViewById(R.id.spinnerTipeStaffInput);
         etGaji = (EditText) findViewById(R.id.editTextGajiStaffInput);
         etTahunBergabung = (EditText) findViewById(R.id.editTextTahunBergabungInput);
         pgs = (ProgressBar) findViewById(R.id.progressBarStaffInput);
         btSave = (Button) findViewById(R.id.buttonSaveInputStaff);
 
         pgs.setVisibility(View.GONE);
+
+        // Custom warna text item spinner
+        String[] itemTipeStaff = getResources().getStringArray(R.array.staff);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(itemTipeStaff));
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.style_text_spinner, arrayList);
+        spTipe.setAdapter(arrayAdapter);
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +107,7 @@ public class InputStaffActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<>();
                 params.put("Nama", etNama.getText().toString());
                 params.put("Jabatan", etJabatan.getText().toString());
-                params.put("Tipe", etTipe.getText().toString());
+                params.put("Tipe", spTipe.getSelectedItem().toString());
                 params.put("Gaji", etGaji.getText().toString());
                 params.put("TahunBergabung", etTahunBergabung.getText().toString());
 
@@ -119,7 +120,6 @@ public class InputStaffActivity extends AppCompatActivity {
     private void clearActivity() {
         etNama.setText("");
         etJabatan.setText("");
-        etTipe.setText("");
         etGaji.setText("");
         etTahunBergabung.setText("");
     }
@@ -131,7 +131,6 @@ public class InputStaffActivity extends AppCompatActivity {
         // Pemeriksaan field kosong
         if (etNama.getText().toString().isEmpty() ||
                 etJabatan.getText().toString().isEmpty() ||
-                etTipe.getText().toString().isEmpty() ||
                 etGaji.getText().toString().isEmpty() ||
                 etTahunBergabung.getText().toString().isEmpty()) {
 

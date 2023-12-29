@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InputOrUpdateMaintenanceActivity"
+    tools:context=".maintenance.InputOrUpdateMaintenanceActivity"
     android:background="@color/blue">
 
     <ImageView
@@ -89,6 +89,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <ImageView
@@ -98,7 +99,8 @@
                         android:layout_height="150dp"
                         android:scaleType="centerCrop"
                         android:layout_marginVertical="10dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:background="@color/grey"
+                        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
                     <EditText
                         android:id="@+id/editTextKodeInputOrUpdateMaintenance"

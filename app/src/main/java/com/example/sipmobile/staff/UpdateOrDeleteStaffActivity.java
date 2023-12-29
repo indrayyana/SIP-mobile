@@ -1,24 +1,18 @@
-package com.example.sipmobile;
+package com.example.sipmobile.staff;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,21 +20,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sipmobile.R;
+import com.example.sipmobile.URLs;
 
 import org.json.JSONObject;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
 
@@ -49,7 +39,8 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
     String ModeMaintain, myMessage;
     RequestQueue mRequestQueue;
     ProgressBar pgs;
-    EditText etNama, etJabatan, etTipe, etGaji, etTahunBergabung;
+    Spinner spTipe;
+    EditText etNama, etJabatan, etGaji, etTahunBergabung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +49,7 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
 
         etNama = (EditText) findViewById(R.id.editTextNamaStaffUpdateDelete);
         etJabatan = (EditText) findViewById(R.id.editTextJabatanStaffUpdateDelete);
-        etTipe = (EditText) findViewById(R.id.editTextTipeStaffUpdateDelete);
+        spTipe = (Spinner) findViewById(R.id.spinnerTipeStaffUpdateDelete);
         etGaji = (EditText) findViewById(R.id.editTextGajiStaffUpdateDelete);
         etTahunBergabung = (EditText) findViewById(R.id.editTextTahunBergabungUpdateDelete);
         pgs = (ProgressBar) findViewById(R.id.progressBarStaffUpdateDelete);
@@ -67,6 +58,12 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
 
         pgs.setVisibility(View.VISIBLE);
 
+        // Custom warna text item spinner
+        String[] itemTipeStaff = getResources().getStringArray(R.array.staff);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(itemTipeStaff));
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.style_text_spinner, arrayList);
+        spTipe.setAdapter(arrayAdapter);
+
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("dataStaff")) {
             Staff dataStaff = (Staff) intent.getParcelableExtra("dataStaff");
@@ -74,7 +71,7 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
             IDStaff = dataStaff.getId();
             etNama.setText(dataStaff.getNama());
             etJabatan.setText(dataStaff.getJabatan());
-            etTipe.setText(dataStaff.getTipe());
+            spTipe.setSelection(getPositionByValue(dataStaff.getTipe()));
             etGaji.setText(String.valueOf(dataStaff.getGaji()));
             etTahunBergabung.setEnabled(false);
             etTahunBergabung.setText(String.valueOf(dataStaff.getTahunBergabung()));
@@ -86,6 +83,19 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ModeMaintain = "update";
                 pgs.setVisibility(View.VISIBLE);
+
+                // Pemeriksaan field kosong saat update
+                if (etNama.getText().toString().isEmpty() ||
+                        etJabatan.getText().toString().isEmpty() ||
+                        etGaji.getText().toString().isEmpty() ||
+                        etTahunBergabung.getText().toString().isEmpty()) {
+
+                    Toast.makeText(UpdateOrDeleteStaffActivity.this, "Semua input harus diisi",
+                            Toast.LENGTH_SHORT).show();
+                    pgs.setVisibility(View.GONE);
+                    return;  // Berhenti eksekusi jika ada field yang kosong
+                }
+
                 ExeUpdateOrDelete();
             }
         });
@@ -115,6 +125,21 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
                 builder.create().show();
             }
         });
+    }
+
+    // Untuk mendapatkan indeks item yg sesuai dgn params
+    private int getPositionByValue(String item) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spTipe.getAdapter();
+
+        if (adapter != null) {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (adapter.getItem(i).equals(item)) {
+                    return i;
+                }
+            }
+        }
+
+        return 0; // Default: Pilih item pertama jika tidak ditemukan
     }
 
     private StringRequest createRequestVolley() {
@@ -164,7 +189,7 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
                 params.put("IDStaff", String.valueOf(IDStaff));
                 params.put("Nama", etNama.getText().toString());
                 params.put("Jabatan", etJabatan.getText().toString());
-                params.put("Tipe", etTipe.getText().toString());
+                params.put("Tipe", spTipe.getSelectedItem().toString());
                 params.put("Gaji", etGaji.getText().toString());
                 params.put("TahunBergabung", etTahunBergabung.getText().toString());
 
@@ -177,7 +202,6 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
     private void clearActivity() {
         etNama.setText("");
         etJabatan.setText("");
-        etTipe.setText("");
         etGaji.setText("");
         etTahunBergabung.setText("");
     }
@@ -185,7 +209,6 @@ public class UpdateOrDeleteStaffActivity extends AppCompatActivity {
     private void ExeUpdateOrDelete() {
         mRequestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = createRequestVolley();
-
         mRequestQueue.add(stringRequest);
     }
 }
