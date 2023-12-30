@@ -21,4 +21,22 @@
         <!-- Set the theme of the activity that directly follows your splash screen. This is required -->
         <item name="postSplashScreenTheme">@style/Base.Theme.SIPMobile</item>
     </style>
+
+    <!-- Customize color for DatePickerDialog. -->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/darkBlue</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomDialogButton.Positive</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomDialogButton.Negative</item>
+    </style>
+
+    <!-- Customize color button OK in DatePickerDialog. -->
+    <style name="CustomDialogButton.Positive" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <!-- Customize color button Cancel in DatePickerDialog. -->
+    <style name="CustomDialogButton.Negative" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue</item>
+    </style>
 </resources>

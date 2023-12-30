@@ -3,13 +3,19 @@ package com.example.sipmobile.maintenance;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,6 +32,8 @@ import com.example.sipmobile.URLs;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +114,23 @@ public class InputOrUpdateMaintenanceActivity extends AppCompatActivity {
                     });
             mRequestQueueImage.add(imageRequest);
         }
+
+        etTanggal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
+
+        etTanggal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    openDialog();
+                }
+            }
+        });
+
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +148,25 @@ public class InputOrUpdateMaintenanceActivity extends AppCompatActivity {
                 ExeInputOrUpdate();
             }
         });
+    }
+
+    private void openDialog() {
+        // Mendapatkan tanggal hari ini
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month += 1;
+                String date = year + "-" + month + "-" + day;
+                etTanggal.setText(date);
+            }
+        }, year, month, day);
+
+        dialog.show();
     }
 
     private StringRequest createRequestVolley() {
